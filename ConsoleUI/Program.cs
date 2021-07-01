@@ -51,11 +51,11 @@ namespace ConsoleUI
             //Console.WriteLine("araba id sine göre arama - araba ismi " + carManager.GetByCarId(1).Name);
 
 
-            CarAddTest();
-            BrandAddTest();
-            ColorAddTest();
-            BrandDeleteTest();
-            ColorUpdateTest();
+            //CarAddTest();
+            //BrandAddTest();
+            //ColorAddTest();
+            //BrandDeleteTest();
+            //ColorUpdateTest();
             CarDetailDtoTest();
             BrandGetAllTest();
             ColorGetByColorIdTest();
@@ -78,13 +78,13 @@ namespace ConsoleUI
         private static void ColorGetByColorIdTest()
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
-            Console.WriteLine(colorManager.GetByColorId(1).Name);
+            Console.WriteLine(colorManager.GetById(1).Data.Name);
         }
 
         private static void BrandGetAllTest()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
-            foreach (var brand in brandManager.GetAll())
+            foreach (var brand in brandManager.GetAll().Data)
             {
                 Console.WriteLine($"BrandName: {brand.Name}");
             }
@@ -93,7 +93,7 @@ namespace ConsoleUI
         private static void CarDetailDtoTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var car in carManager.GetCarDetails())
+            foreach (var car in carManager.GetCarDetails().Data)
             {
                 Console.WriteLine($"CarName: {car.CarName}, BrandName: {car.BrandName}, ColorName: {car.ColorName}, DailyPrice: {car.DailyPrice}");
             }
