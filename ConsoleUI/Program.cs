@@ -1,4 +1,6 @@
 ﻿using Business.Concrete;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -70,8 +72,9 @@ namespace ConsoleUI
         {
 
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
             var result = rentalManager.Add(new Rental
-            { CarId = 5, CustomerId = 2, RentDate = DateTime.Now});
+            { CarId = 5, CustomerId = 2, RentDate = new DateTime(2021, 7, 15)});
             Console.WriteLine(result.Message);
         }
 
