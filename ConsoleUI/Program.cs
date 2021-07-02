@@ -56,11 +56,31 @@ namespace ConsoleUI
             //ColorAddTest();
             //BrandDeleteTest();
             //ColorUpdateTest();
-            CarDetailDtoTest();
-            BrandGetAllTest();
-            ColorGetByColorIdTest();
-            
+            //CarDetailDtoTest();
+            //BrandGetAllTest();
+            //ColorGetByColorIdTest();
 
+
+            UserAddTestWithMessage();
+            RentalAddTestWithMessage();
+
+        }
+
+        private static void RentalAddTestWithMessage()
+        {
+
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            var result = rentalManager.Add(new Rental
+            { CarId = 5, CustomerId = 2, RentDate = DateTime.Now});
+            Console.WriteLine(result.Message);
+        }
+
+        private static void UserAddTestWithMessage()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+            var result = userManager.Add(new User
+            { FirstName = "Osman", LastName = "Pehlivanoğlu", Email = "kodladagel@gmail.com", Password = "12345" });
+            Console.WriteLine(result.Message);
         }
 
         private static void ColorUpdateTest()
