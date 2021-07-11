@@ -1,6 +1,7 @@
 ﻿using Business.Concrete;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Entities.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -63,7 +64,7 @@ namespace ConsoleUI
             //ColorGetByColorIdTest();
 
 
-            UserAddTestWithMessage();
+            //UserAddTestWithMessage();
             RentalAddTestWithMessage();
 
         }
@@ -74,16 +75,16 @@ namespace ConsoleUI
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
             var result = rentalManager.Add(new Rental
-            { CarId = 5, CustomerId = 2, RentDate = new DateTime(2021, 7, 15)});
+            { CarId = 5, CustomerId = 2, RentDate = new DateTime(2021, 7, 15) });
             Console.WriteLine(result.Message);
         }
 
         private static void UserAddTestWithMessage()
         {
-            UserManager userManager = new UserManager(new EfUserDal());
-            var result = userManager.Add(new User
-            { FirstName = "Osman", LastName = "Pehlivanoğlu", Email = "kodladagel@gmail.com", Password = "12345" });
-            Console.WriteLine(result.Message);
+            //UserManager userManager = new UserManager(new EfUserDal());
+            //var result = userManager.Add(new User
+            //{ FirstName = "Osman", LastName = "Pehlivanoğlu", Email = "kodladagel@gmail.com", Password = "12345" });
+            //Console.WriteLine(result.Message);
         }
 
         private static void ColorUpdateTest()

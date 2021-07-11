@@ -45,6 +45,16 @@ namespace Business.Constants
         public static string ImageDeleted = "Resim silindi.";
         public static string ImageLimitExceded = "Resim limiti aşıldı.";
 
+        public static string AuthorizationDenied = "Yetkiniz yok!";
+        public static string UserAlreadyExists = "Kullanıcı mevcut";
+        public static string AccessTokenCreated = "Token oluşturuldu";
+        public static string SuccessfulLogin = "Başarılı giriş";
+        public static string PasswordError = "Parola hatası";
+        public static string UserNotFound = "Kullanıcı bulunamadı";
+        public static string UserRegistered = "Kayıt oldu";
+
+
+
 
 
     }
