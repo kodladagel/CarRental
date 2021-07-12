@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -53,9 +54,6 @@ namespace Business.Constants
         public static string UserNotFound = "Kullanıcı bulunamadı";
         public static string UserRegistered = "Kayıt oldu";
 
-
-
-
-
+        public static string MaintenanceTime = "Sistem bakımda";
     }
 }
