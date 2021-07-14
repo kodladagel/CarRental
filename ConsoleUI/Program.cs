@@ -63,10 +63,18 @@ namespace ConsoleUI
             //BrandGetAllTest();
             //ColorGetByColorIdTest();
 
+            CustomerManagerAddTest();
+
 
             //UserAddTestWithMessage();
             RentalAddTestWithMessage();
 
+        }
+
+        private static void CustomerManagerAddTest()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            customerManager.Add(new Customer { UserId = 3, CompanyName = "kodladagel" });
         }
 
         private static void RentalAddTestWithMessage()
@@ -75,7 +83,7 @@ namespace ConsoleUI
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
             var result = rentalManager.Add(new Rental
-            { CarId = 5, CustomerId = 2, RentDate = new DateTime(2021, 7, 15) });
+            { CarId = 1, CustomerId = 1, RentDate = new DateTime(2021, 7, 15) });
             Console.WriteLine(result.Message);
         }
 
