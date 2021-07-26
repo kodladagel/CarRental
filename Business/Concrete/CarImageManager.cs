@@ -49,7 +49,7 @@ namespace Business.Concrete
 
         public IDataResult<CarImage> GetById(int id)
         {
-            IResult result = BusinessRules.Run(CheckIfCarImageImageCountNull(id));
+            IResult result = BusinessRules.Run(CheckIfCarImageNull(id));
             if (result != null)
             {
                 return new ErrorDataResult<CarImage>(result.Message);
@@ -70,6 +70,20 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ImageUpdated);
         }
 
+        public IDataResult<List<CarImage>> GetImagesByCarId(int carId)
+        {
+            IResult result = BusinessRules.Run(CheckIfCarImageNull(carId));
+
+            if (result != null)
+            {
+                return new ErrorDataResult<List<CarImage>>(result.Message);
+            }
+
+            return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(carId).Data);
+        }
+
+
+
         private IResult CheckIfImageLimitExceded(int CarId)
         {
             var result = _carImageDal.GetAll(c => c.CarId == CarId).Count;
@@ -79,19 +93,18 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
-        private IDataResult<List<CarImage>> CheckIfCarImageImageCountNull(int carId)
+
+
+        private IDataResult<List<CarImage>> CheckIfCarImageNull(int carId)
         {
             try
             {
-                string path = Environment.CurrentDirectory + @"\Images\DefaultImage.png";
+                string path = @"\images\default.jpg";
                 var result = _carImageDal.GetAll(c => c.CarId == carId).Any();
-
                 if (!result)
                 {
-                    List<CarImage> carImage = new List<CarImage>
-                    {
-                        new CarImage { CarId = carId, ImagePath = path, Date = DateTime.Now }
-                    };
+                    List<CarImage> carImage = new List<CarImage>();
+                    carImage.Add(new CarImage { CarId = carId, ImagePath = path, Date = DateTime.Now });
                     return new SuccessDataResult<List<CarImage>>(carImage);
                 }
             }
@@ -99,7 +112,9 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<List<CarImage>>(exception.Message);
             }
-            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(c => c.Id == carId).ToList());
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(c => c.CarId == carId));
         }
+
+
     }
 }

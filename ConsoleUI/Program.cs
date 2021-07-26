@@ -98,13 +98,13 @@ namespace ConsoleUI
         private static void ColorUpdateTest()
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
-            colorManager.Update(new Color { Id = 1, Name = "Sarı" });
+            colorManager.Update(new Color { colorId = 1, Name = "Sarı" });
         }
 
         private static void BrandDeleteTest()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
-            brandManager.Delete(new Brand { Id = 4 });
+            brandManager.Delete(new Brand { brandId = 4 });
         }
 
         private static void ColorGetByColorIdTest()

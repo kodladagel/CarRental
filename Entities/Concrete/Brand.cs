@@ -8,7 +8,7 @@ namespace Entities.Concrete
 {
     public class Brand:IEntity
     {
-        public int Id { get; set; }
+        public int brandId { get; set; }
         public string Name { get; set; }
     }
 }
