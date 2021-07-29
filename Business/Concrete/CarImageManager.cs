@@ -82,8 +82,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(carId).Data);
         }
 
-
-
         private IResult CheckIfImageLimitExceded(int CarId)
         {
             var result = _carImageDal.GetAll(c => c.CarId == CarId).Count;
@@ -103,8 +101,9 @@ namespace Business.Concrete
                 var result = _carImageDal.GetAll(c => c.CarId == carId).Any();
                 if (!result)
                 {
+
                     List<CarImage> carImage = new List<CarImage>();
-                    carImage.Add(new CarImage { CarId = carId, ImagePath = path, Date = DateTime.Now });
+                    _carImageDal.Add(new CarImage { CarId = carId, ImagePath = path, Date = DateTime.Now });
                     return new SuccessDataResult<List<CarImage>>(carImage);
                 }
             }
