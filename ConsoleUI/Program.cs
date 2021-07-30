@@ -13,6 +13,15 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+
+            CarManager carManager = new CarManager(new EfCarDal());
+            var result = carManager.GetCarDetails();
+            foreach (var item in result.Data)
+            {
+                Console.WriteLine(item.CarImage);
+                Console.WriteLine("at adam");
+            }
+
             //CarManager carManager = new CarManager(new InMemoryCarDal());
             //Console.WriteLine("tüm arabalar - tanımlamalar");
             //foreach (var car in carManager.GetAll())
@@ -63,11 +72,11 @@ namespace ConsoleUI
             //BrandGetAllTest();
             //ColorGetByColorIdTest();
 
-            CustomerManagerAddTest();
+            //CustomerManagerAddTest();
 
 
             //UserAddTestWithMessage();
-            RentalAddTestWithMessage();
+            //RentalAddTestWithMessage();
 
         }
 

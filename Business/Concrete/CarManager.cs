@@ -8,6 +8,7 @@ using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities;
+using Core.Utilities.Business;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -67,10 +68,35 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == carId));
         }
 
+
+
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+            IResult result = BusinessRules.Run(CheckIfCarImageNull());
+
+            if (result != null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(result.Message);
+            }
+
+            return new SuccessDataResult<List<CarDetailDto>>(CheckIfCarImageNull().Data);
         }
+
+
+        private IDataResult<List<CarDetailDto>> CheckIfCarImageNull() {
+
+            var result = _carDal.GetCarDetails();
+            foreach (var item in result)
+            {
+                if (item.CarImage == null)
+                {
+                    item.CarImage = @"\images\defaultImage.png";
+                }
+
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result);
+        }
+
 
 
 
@@ -121,5 +147,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.Id == carId));
         }
+
+
     }
 }
