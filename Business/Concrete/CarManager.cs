@@ -68,38 +68,6 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == carId));
         }
 
-
-
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
-        {
-            IResult result = BusinessRules.Run(CheckIfCarImageNull());
-
-            if (result != null)
-            {
-                return new ErrorDataResult<List<CarDetailDto>>(result.Message);
-            }
-
-            return new SuccessDataResult<List<CarDetailDto>>(CheckIfCarImageNull().Data);
-        }
-
-
-        private IDataResult<List<CarDetailDto>> CheckIfCarImageNull() {
-
-            var result = _carDal.GetCarDetails();
-            foreach (var item in result)
-            {
-                if (item.CarImage == null)
-                {
-                    item.CarImage = @"\images\defaultImage.png";
-                }
-
-            }
-            return new SuccessDataResult<List<CarDetailDto>>(result);
-        }
-
-
-
-
         public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId));
@@ -125,27 +93,121 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarUpdated);
         }
 
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        {
+            IResult result = BusinessRules.Run(CheckIfCarImageNull());
 
+            if (result != null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(result.Message);
+            }
+
+            return new SuccessDataResult<List<CarDetailDto>>(CheckIfCarImageNull().Data);
+        }
+
+
+        
         public IDataResult<List<CarDetailDto>> GetCarDetailsByBrand(int brandId)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.BrandId == brandId));
+            IResult result = BusinessRules.Run(CheckIfCarImageNullByBrandId(brandId));
+
+            if (result != null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(result.Message);
+            }
+
+            return new SuccessDataResult<List<CarDetailDto>>(CheckIfCarImageNullByBrandId(brandId).Data);
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetailsByColor(int colorId)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.ColorId == colorId));
+            IResult result = BusinessRules.Run(CheckIfCarImageNullByColorId(colorId));
+
+            if (result != null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(result.Message);
+            }
+
+            return new SuccessDataResult<List<CarDetailDto>>(CheckIfCarImageNullByColorId(colorId).Data);
 
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetailsByColorAndByBrand(int colorId, int brandId)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.ColorId == colorId && c.BrandId == brandId));
+            IResult result = BusinessRules.Run(CheckIfCarImageNullByColorAndBrandId(colorId, brandId));
+
+            if (result != null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(result.Message);
+            }
+
+            return new SuccessDataResult<List<CarDetailDto>>(CheckIfCarImageNullByColorAndBrandId(colorId, brandId).Data);
 
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetailsByCar(int carId)
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c => c.Id == carId));
+        }
+
+        private IDataResult<List<CarDetailDto>> CheckIfCarImageNull()
+        {
+
+            var result = _carDal.GetCarDetails();
+            foreach (var item in result)
+            {
+                if (item.CarImage == null)
+                {
+                    item.CarImage = @"\images\defaultImage.png";
+                }
+
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result);
+        }
+
+        private IDataResult<List<CarDetailDto>> CheckIfCarImageNullByBrandId(int brandId)
+        {
+
+            var result = _carDal.GetCarDetails(c=>c.BrandId==brandId);
+            foreach (var item in result)
+            {
+                if (item.CarImage == null)
+                {
+                    item.CarImage = @"\images\defaultImage.png";
+                }
+
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result);
+        }
+
+        private IDataResult<List<CarDetailDto>> CheckIfCarImageNullByColorId(int colorId)
+        {
+
+            var result = _carDal.GetCarDetails(c => c.ColorId == colorId);
+            foreach (var item in result)
+            {
+                if (item.CarImage == null)
+                {
+                    item.CarImage = @"\images\defaultImage.png";
+                }
+
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result);
+        }
+
+        private IDataResult<List<CarDetailDto>> CheckIfCarImageNullByColorAndBrandId(int colorId, int brandId)
+        {
+
+            var result = _carDal.GetCarDetails(c => c.ColorId == colorId & c.BrandId == brandId);
+            foreach (var item in result)
+            {
+                if (item.CarImage == null)
+                {
+                    item.CarImage = @"\images\defaultImage.png";
+                }
+
+            }
+            return new SuccessDataResult<List<CarDetailDto>>(result);
         }
 
 
