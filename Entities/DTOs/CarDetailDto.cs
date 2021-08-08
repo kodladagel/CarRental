@@ -17,5 +17,7 @@ namespace Entities.DTOs
         public decimal DailyPrice { get; set; }
         public string Description { get; set; }
         public string CarImage { get; set; }
+
+        public bool Available { get; set; }
     }
 }

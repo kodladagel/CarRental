@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities;
+using Core.Utilities.Business;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -25,9 +26,15 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
+            IResult result = BusinessRules.Run(CheckIfCarRent(rental));
+
+            if (result != null)
+            {
+                return result;
+            }
 
             _rentalDal.Add(rental);
-            return new SuccessResult(Messages.RentalAdded);
+            return new SuccessResult();
 
         }
 
@@ -56,6 +63,22 @@ namespace Business.Concrete
         public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
+        }
+
+        public IDataResult<List<RentalDetailDto>> GetRentalDetailsByCarId(int carId)
+        {
+            var result = _rentalDal.GetRentalDetails(r => r.CarId == carId);
+            return new SuccessDataResult<List<RentalDetailDto>>(result);
+        }
+
+        private IResult CheckIfCarRent(Rental rental)
+        {
+            var result = _rentalDal.Get(r => r.CarId == rental.CarId);
+            if (result.ReturnDate == null || result.ReturnDate > rental.RentDate)
+            {
+                return new ErrorResult(Messages.ReturnDateEror);
+            }
+            return new SuccessResult();
         }
     }
 }

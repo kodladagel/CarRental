@@ -34,6 +34,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  DailyPrice = c.DailyPrice,
                                  BrandId = c.BrandId,
                                  ColorId = c.ColorId,
+                                 Available= !context.Rentals.Any(r=>r.CarId==c.Id&&(r.ReturnDate==null||r.RentDate>DateTime.Now)),
                                  CarImage = (from i in context.CarImages
                                              where (c.Id == i.CarId)
                                              select i.ImagePath).FirstOrDefault()
@@ -44,7 +45,43 @@ namespace DataAccess.Concrete.EntityFramework
         }
 
 
-        
+        public CarDetailDto GetCarDetailsByCar(Expression<Func<CarDetailDto, bool>> filter = null)
+        {
+            using (CarRentalContext context = new CarRentalContext())
+            {
+
+
+                var result = from c in context.Cars
+
+                             join b in context.Brands
+                             on c.BrandId equals b.brandId
+                             join col in context.Colors
+                             on c.ColorId equals col.colorId
+                             //join img in carSqlServerContext.CarImages
+                             // on c.Id equals img.CarId
+                             select new CarDetailDto
+                             {
+                                 CarId = c.Id,
+                                 BrandName = b.Name,
+                                 DailyPrice = c.DailyPrice,
+                                 Description = c.Description,
+                                 ColorName = col.Name,
+                                 BrandId = b.brandId,
+                                 ColorId = c.ColorId,
+                                 ModelYear = c.ModelYear,
+                                 Available = !context.Rentals.Any(r => r.CarId == c.Id && (r.ReturnDate == null || r.RentDate > DateTime.Now)),
+                                 CarImage = (from i in context.CarImages
+                                             where (c.Id == i.CarId)
+                                             select i.ImagePath).FirstOrDefault()
+
+                             };
+                return filter == null ?
+                    result.SingleOrDefault() :
+                    result.SingleOrDefault(filter);
+
+
+            }
+        }
 
 
     }

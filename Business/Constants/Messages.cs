@@ -40,6 +40,7 @@ namespace Business.Constants
         public static string RentalUpdated = "Kiralama güncellendi.";
         public static string RentalDeleted = "Kiralama silindi.";
         public static string RentalsListed = "Kiralamalar listelendi.";
+        public static string ReturnDateEror = "Urun daha once kiralanmmis";
 
         public static string ImageAdded = "Resim eklendi.";
         public static string ImageUpdated = "Resim güncellendi.";
